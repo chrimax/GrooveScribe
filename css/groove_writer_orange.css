@@ -3,12 +3,14 @@
 DEBUG {
   border: 1px solid red;
 }
+
 body {
   /* Use GrooveWriter instead of body for easy embedding */
   margin: 0px;
   height: 100vh;
   background-color: #393939;
 }
+
 #GrooveWriter {
   /* tag surrounds entire app */
   /* Use the following CSS to move the app down so a nav bar can be inserted above */
@@ -29,9 +31,12 @@ body {
     Calibri,
     sans-serif;
 }
+
 .fullWidthEle {
-  max-width: 1478px; /* 1550 - 72 */
+  max-width: 1478px;
+  /* 1550 - 72 */
 }
+
 .warnings {
   font-family: monospace;
   display: none;
@@ -40,9 +45,11 @@ body {
 .Printable {
   display: block;
 }
+
 .nonPrintable {
   display: block;
 }
+
 #LeftHandNav {
   width: 70px;
   height: 100%;
@@ -55,6 +62,7 @@ body {
   background: #393939;
   z-index: 999;
 }
+
 #TopNav {
   position: fixed;
   /position: relative;
@@ -64,12 +72,14 @@ body {
   z-index: 998;
   width: calc(100% - 72px);
   margin-left: 72px;
-  height: 48px; /* total 48 */
+  height: 48px;
+  /* total 48 */
   border-bottom: 1px solid #000;
   background: var(--header-bg-color);
   background: linear-gradient(to right, var(--header-bg-start-color), var(--header-bg-end-color));
   display: block;
 }
+
 #midiPlayer {
   /* more #midiPlayer css in groove_display.css */
   background: #000;
@@ -83,6 +93,7 @@ body {
   z-index: 999;
   border-bottom: 1px solid #000;
 }
+
 #RightHandContent {
   position: relative;
   #top: 209px;
@@ -92,19 +103,23 @@ body {
   width: calc(100% - 72px);
   overflow-y: auto;
 }
+
 #logoTextUpperLeft {
   padding: 9px 10px 6px 5px;
   display: inline-block;
 }
+
 #logoTextUpperLeft img {
   height: 30px;
 }
+
 #upperLeft {
   margin-top: 12px;
   display: inline-block;
   white-space: nowrap;
   vertical-align: top;
 }
+
 #upperRight {
   margin-top: 12px;
   display: inline-block;
@@ -114,10 +129,10 @@ body {
   vertical-align: top;
 }
 
-#divisionButtonContainer {
-}
-#metronomeContainer {
-}
+#divisionButtonContainer {}
+
+#metronomeContainer {}
+
 #metronomeLabel {
   display: inline-block;
   height: 20px;
@@ -126,6 +141,7 @@ body {
   text-align: center;
   color: #eef;
 }
+
 .metronomeButton,
 .rightButtons {
   padding: 2px;
@@ -141,9 +157,11 @@ body {
   height: 20px;
   transition: all 0.1s ease-in-out;
 }
+
 .rightButtons {
   margin: 0px 6px;
 }
+
 .metronomeButton:hover,
 .rightButtons:hover,
 .metronomeButton.selected:hover,
@@ -153,9 +171,11 @@ body {
   font-weight: 700;
   transform: scale(1.05);
 }
+
 .metronomeButton.options {
   width: 75px;
 }
+
 .metronomeButton.buttonSelected,
 .metronomeButton.selected,
 .rightButtons.buttonSelected {
@@ -168,14 +188,17 @@ body {
 #logoInSubdivision {
   background-color: #000;
 }
+
 #logoInSubdivision img {
   height: 40px;
 }
+
 .left-button {
   display: block;
   color: #999999;
   cursor: pointer;
 }
+
 .left-button-content {
   display: block;
   cursor: pointer;
@@ -193,23 +216,29 @@ body {
   -webkit-justify-content: center;
   transition: all 0.1s ease-in-out;
 }
+
 #timeLabel {
-  height: 48px; /* Override from above */
+  height: 48px;
+  /* Override from above */
 }
+
 #timeSigLabel {
   color: #62c04c;
   font-size: 20px;
   margin-bottom: -5px;
 }
+
 #timeSubLabel {
   color: #62c04c;
   font-size: 12px;
 }
+
 .left-button.disabled,
 .left-button.disabled:hover {
   color: #000;
   background-color: #393939;
 }
+
 .left-button.buttonSelected,
 .left-button.buttonSelected:hover {
   /* is subdivision and is selected */
@@ -218,6 +247,7 @@ body {
   cursor: auto;
   transform: scale(1.1);
 }
+
 .myButton:hover,
 .left-button:hover {
   border-top-color: #28597a;
@@ -225,26 +255,31 @@ body {
   color: #ccc;
   transform: scale(1.05);
 }
+
 .myButton:active,
 .left-button:active {
   border-top-color: #1b435e;
   background: #1b435e;
 }
+
 .buttonFraction {
   /* The number above "triplet" in the .subdivision 1/4, 1/8, etc */
   display: block;
   font-size: 18px;
 }
+
 #advancedEditAnchor.buttonSelected {
   background: #009ffa;
   color: #fff;
   font-size: 14px;
 }
-.buttonText {
-}
+
+.buttonText {}
+
 #undoButton {
   font-size: 14px;
 }
+
 #NotationLine {
   height: 35px;
   text-align: center;
@@ -252,6 +287,7 @@ body {
   border-bottom: 1px solid #aaa;
   background-color: #ddd;
 }
+
 #NotationLabel {
   display: inline-block;
   margin: auto;
@@ -260,24 +296,28 @@ body {
   text-align: center;
   padding-left: 62px;
 }
+
 #KeyButton {
   float: right;
   padding-right: 5px;
   font-size: 18px;
   text-align: right;
 }
+
 #hiddenDescription {
   display: none;
 }
+
 #musicalInput {
-  width: 100%;
+  width: 1700px;
   background: #fff;
   overflow-x: auto;
   overflow-y: hidden;
   border-bottom: 1px solid #aaa;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
 }
+
 @media only screen and (orientation: portrait) {
   #musicalInput {
     white-space: normal;
@@ -286,13 +326,16 @@ body {
 			 */
   }
 }
+
 #musicalInput.expanded {
   max-width: 5000px !important;
 }
+
 #measureContainer {
   margin-left: auto;
   margin-right: auto;
 }
+
 .staff-container {
   /margin-left: 2px;
   /margin-top: 2px;
@@ -303,13 +346,16 @@ body {
   text-align: left;
   white-space: nowrap;
 }
+
 .notes-row-container {
   display: inline-block;
 }
+
 .heading1 {
   font-size: 30px;
   font-weight: bold;
 }
+
 .line-labels {
   display: inline-block;
   vertical-align: top;
@@ -317,6 +363,7 @@ body {
   font-size: 20px;
   display: table-cell;
 }
+
 .stickings-label {
   display: none;
   height: 25px;
@@ -328,6 +375,7 @@ body {
   cursor: pointer;
   text-align: center;
 }
+
 .hh-label {
   display: block;
   white-space: nowrap;
@@ -336,6 +384,7 @@ body {
   cursor: pointer;
   text-align: center;
 }
+
 #tom1-label {
   display: block;
   white-space: nowrap;
@@ -345,12 +394,14 @@ body {
   text-align: center;
   visibility: hidden;
 }
+
 .snare-label {
   margin-top: 5px;
   margin-left: 8px;
   cursor: pointer;
   text-align: center;
 }
+
 #tom4-label {
   display: block;
   white-space: nowrap;
@@ -360,31 +411,38 @@ body {
   text-align: center;
   visibility: hidden;
 }
+
 .kick-label {
   margin-top: 5px;
   margin-left: 8px;
   cursor: pointer;
   text-align: center;
 }
+
 .stickings-label:hover {
   color: var(--highlight-color);
 }
+
 .hh-label:hover,
 .snare-label:hover,
 .kick-label:hover {
   color: var(--highlight-color);
 }
+
 .music-line-container {
   display: inline-block;
   /top: 30px;
   z-index: 3;
   display: table-cell;
 }
+
 .notes-container {
-  font-family: Times New Roman; /* parens around snare ghost note, R for Ride */
+  font-family: Times New Roman;
+  /* parens around snare ghost note, R for Ride */
   position: relative;
   z-index: 4;
 }
+
 .stickings-container {
   display: none;
   height: 32px;
@@ -396,12 +454,14 @@ body {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
 .background-highlight-container {
   position: absolute;
   height: 190px;
   white-space: nowrap;
   border: 1px solid transparent;
 }
+
 .hi-hat-container {
   height: 42px;
   white-space: nowrap;
@@ -410,6 +470,7 @@ body {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
 #tom1-container {
   height: 28px;
   white-space: nowrap;
@@ -419,6 +480,7 @@ body {
   -ms-user-select: none;
   visibility: hidden;
 }
+
 .snare-container {
   border: 1px solid transparent;
   height: 28px;
@@ -427,6 +489,7 @@ body {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
 #tom4-container {
   height: 28px;
   white-space: nowrap;
@@ -436,6 +499,7 @@ body {
   -ms-user-select: none;
   visibility: hidden;
 }
+
 .kick-container {
   border: 1px solid transparent;
   height: 56px;
@@ -444,6 +508,7 @@ body {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
 .staff-line-1 {
   position: absolute;
   top: 42px;
@@ -451,6 +516,7 @@ body {
   height: 0px;
   border-top: 3px solid #cacaca;
 }
+
 .staff-line-2 {
   position: absolute;
   top: 72px;
@@ -458,6 +524,7 @@ body {
   height: 0px;
   border-top: 3px solid #cacaca;
 }
+
 .staff-line-3 {
   position: absolute;
   top: 103px;
@@ -465,6 +532,7 @@ body {
   height: 0px;
   border-top: 3px solid #cacaca;
 }
+
 .staff-line-4 {
   position: absolute;
   top: 132px;
@@ -472,6 +540,7 @@ body {
   height: 0px;
   border-top: 3px solid #cacaca;
 }
+
 .staff-line-5 {
   position: absolute;
   top: 163px;
@@ -479,6 +548,7 @@ body {
   height: 0px;
   border-top: 3px solid #cacaca;
 }
+
 .sticking {
   display: inline-block;
   position: relative;
@@ -490,11 +560,13 @@ body {
   margin-left: 2px;
   margin-bottom: 0;
 }
+
 .bg-highlight {
   display: inline-block;
   width: 35px;
   height: 192px;
 }
+
 .hi-hat {
   display: inline-block;
   position: relative;
@@ -505,6 +577,7 @@ body {
   margin-right: 2px;
   margin-left: 2px;
 }
+
 .tom {
   display: inline-block;
   position: relative;
@@ -515,6 +588,7 @@ body {
   margin-right: 2px;
   margin-left: 2px;
 }
+
 .snare {
   display: inline-block;
   position: relative;
@@ -525,6 +599,7 @@ body {
   margin-right: 2px;
   margin-left: 2px;
 }
+
 .kick {
   display: inline-block;
   position: relative;
@@ -535,9 +610,11 @@ body {
   margin-right: 2px;
   margin-left: 2px;
 }
+
 .note_part {
   /* all the following note segments also share class .note_part */
 }
+
 .sticking_right {
   position: absolute;
   top: 0px;
@@ -546,6 +623,7 @@ body {
   color: #cccccc;
   cursor: pointer;
 }
+
 .sticking_left {
   position: absolute;
   top: 0px;
@@ -554,6 +632,7 @@ body {
   color: #cccccc;
   cursor: pointer;
 }
+
 .sticking_both {
   position: absolute;
   top: 5px;
@@ -562,6 +641,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .sticking_count {
   position: absolute;
   top: 0px;
@@ -570,6 +650,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_crash {
   position: absolute;
   top: 19px;
@@ -578,6 +659,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_ride {
   position: absolute;
   top: 18px;
@@ -586,6 +668,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_ride_bell {
   position: absolute;
   top: 18px;
@@ -594,6 +677,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_cow_bell {
   position: absolute;
   top: 18px;
@@ -602,6 +686,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_stacker {
   position: absolute;
   top: 17px;
@@ -610,6 +695,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_metronome_normal {
   position: absolute;
   top: 17px;
@@ -618,6 +704,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_metronome_accent {
   position: absolute;
   top: 17px;
@@ -626,6 +713,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .hh_cross {
   position: absolute;
   top: 15px;
@@ -634,6 +722,7 @@ body {
   color: #cccccc;
   cursor: pointer;
 }
+
 .hh_open {
   position: absolute;
   top: 3px;
@@ -641,6 +730,7 @@ body {
   font-size: 13px;
   color: transparent;
 }
+
 .hh_close {
   position: absolute;
   top: 3px;
@@ -649,6 +739,7 @@ body {
   color: transparent;
   float: left;
 }
+
 .hh_accent {
   position: absolute;
   top: 0px;
@@ -657,6 +748,7 @@ body {
   color: transparent;
   float: left;
 }
+
 .unmuteHHButton,
 .unmuteSnareButton,
 .unmuteKickButton,
@@ -674,6 +766,7 @@ body {
   margin-left: 2px;
   cursor: pointer;
 }
+
 .unmuteHHButton:hover,
 .unmuteSnareButton:hover,
 .unmuteKickButton:hover,
@@ -681,12 +774,15 @@ body {
 .unmuteTom4Button:hover {
   opacity: 0.6;
 }
+
 .unmuteHHStack {
   margin-top: 9px;
 }
+
 .unmuteStack {
   margin-top: -3px;
 }
+
 .tom_circle {
   position: absolute;
   top: 1px;
@@ -700,12 +796,14 @@ body {
   border-radius: 30px;
   cursor: pointer;
 }
+
 .dot_in_snare_ghost_note {
   font-size: 14px;
   position: relative;
   top: -1px;
   left: 0px;
 }
+
 .snare_ghost {
   position: absolute;
   top: -4px;
@@ -715,6 +813,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .snare_circle {
   position: absolute;
   top: 0px;
@@ -729,6 +828,7 @@ body {
   border-radius: 30px;
   cursor: pointer;
 }
+
 .snare_accent {
   position: absolute;
   top: 5px;
@@ -738,6 +838,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .snare_xstick {
   position: absolute;
   top: -5px;
@@ -746,6 +847,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .snare_buzz {
   position: absolute;
   top: 0px;
@@ -754,6 +856,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .snare_flam {
   position: absolute;
   top: -2px;
@@ -762,6 +865,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .snare_drag {
   position: absolute;
   top: -2px;
@@ -770,6 +874,7 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .kick_circle {
   position: absolute;
   top: 0px;
@@ -790,24 +895,28 @@ body {
   color: transparent;
   cursor: pointer;
 }
+
 .opening_note_space {
   display: inline-block;
   width: 1px;
   height: 1px;
   background: transparent;
 }
+
 .end_note_space {
   display: inline-block;
   width: 1px;
   height: 1px;
   background: transparent;
 }
+
 .space_between_note_groups {
   display: inline-block;
   width: 20px;
   height: 1px;
   background: transparent;
 }
+
 #addMeasureButton {
   vertical-align: top;
   display: inline-block;
@@ -825,37 +934,46 @@ body {
   cursor: pointer;
   color: var(--highlight-color-on-white);
 }
+
 .closeMeasureButton:hover,
 #addMeasureButton:hover {
   color: #000;
 }
+
 #permutationAnchor {
   color: #555;
 }
+
 #permutationAnchor.enabled {
   color: #eee;
 }
+
 #PermutationOptions.displayed {
   padding: 3px 0px 0px 10px;
   //margin-bottom: -20px;
   background-color: #ddd;
 }
+
 #PermutationOptionsHeader {
   /margin-left: 22px;
   font-size: 18px;
   font-weight: bold;
 }
+
 .PermutationOptionWrapper {
   display: table;
   border-collapse: collapse;
 }
+
 .PermutationOptionGroup {
   display: table-row;
   border-bottom: 1px solid #999;
 }
+
 .PermutationOptionGroup:last-child {
   border-bottom: 0px solid #999;
 }
+
 .PermutationOption {
   height: 20px;
   display: table-cell;
@@ -863,32 +981,39 @@ body {
   /border-top: 1px solid #999;
   /border-bottom: 1px solid #999;
 }
+
 .PermutationSubOption {
   display: table-cell;
   padding-right: 15px;
   /border-top: 1px solid #999;
   /border-bottom: 1px solid #999;
 }
+
 #permutationType {
   margin-top: 10px;
 }
+
 #noteInstructions {
   font-size: 120%;
   font-weight: bold;
   margin-top: 14px;
   margin-left: 25px;
 }
-#exportMidi {
-}
+
+#exportMidi {}
+
 #showHideABC {
   display: none;
 }
+
 #ABC_Results {
   display: none;
 }
+
 #sheetMusicDiv {
   background: #fff;
 }
+
 .svgTarget {
   background: #fff;
 }
@@ -911,14 +1036,16 @@ body {
   -webkit-justify-content: space-around;
   background-color: #ddd;
 }
+
 .sheetMusicTextField {
   margin: 0px 10px;
 }
-.sheetMusicInputField {
-}
+
+.sheetMusicInputField {}
+
 /* Context Menu */
-.noteContextMenu {
-}
+.noteContextMenu {}
+
 #permutationContextMenu,
 #helpContextMenu,
 #metronomeOptionsContextMenu,
@@ -927,18 +1054,24 @@ body {
   top: 0px;
   right: 0px;
 }
+
 .metronomeOptionsContextMenuItem:before,
 .metronomeOptionsOffsetClickContextMenuItem:before {
   font-family: FontAwesome;
-  content: '\00a0'; /* blank space */
+  content: '\00a0';
+  /* blank space */
   letter-spacing: 17px;
-} /* unchecked icon */
+}
+
+/* unchecked icon */
 .menuChecked:before {
   font-family: FontAwesome;
   content: '\f00c';
   letter-spacing: 5px;
-} /* checked icon */
-.noteContextMenu > ul.list {
+}
+
+/* checked icon */
+.noteContextMenu>ul.list {
   display: none;
   position: fixed;
   left: 30px;
@@ -953,18 +1086,22 @@ body {
   border: 1px solid #393939;
   list-style: none;
 }
-.noteContextMenu > ul.list li {
+
+.noteContextMenu>ul.list li {
   padding: 10px;
   border-bottom: solid 1px #393939;
   text-decoration: none;
 }
-.noteContextMenu > ul.list li:hover,
+
+.noteContextMenu>ul.list li:hover,
 ul.list a:hover {
   background: #cccccc;
 }
-.noteContextMenu > ul.list li:last-child {
+
+.noteContextMenu>ul.list li:last-child {
   border: none;
 }
+
 #grooveListWrapper {
   display: none;
   position: fixed;
@@ -977,6 +1114,7 @@ ul.list a:hover {
   background: #eeeeee;
   border: 1px solid #393939;
 }
+
 .grooveListUL {
   margin: 0;
   padding: 0px;
@@ -984,20 +1122,24 @@ ul.list a:hover {
   background: #eeeeee;
   color: #000;
 }
+
 .grooveListHeaderLI {
   padding: 15px;
   background: var(--highlight-color);
   font-size: 18px;
   font-weight: bold;
 }
+
 .grooveListLI {
   padding: 10px;
   padding-left: 15px;
   border-bottom: solid 1px #393939;
 }
+
 .grooveListLI:hover {
   background: #cccccc;
 }
+
 hr {
   width: 795px;
   margin-left: 0px;
@@ -1007,6 +1149,7 @@ hr {
   font-family: monospace;
   font-size: 14px;
 }
+
 #fullURLPopup,
 #metronomeAutoSpeedupConfiguration,
 #timeSigPopup {
@@ -1022,23 +1165,28 @@ hr {
   border: solid 2px #999;
   border-radius: 5px;
 }
+
 #timeSigPopup {
   font-size: 24px;
 }
+
 #timeSigPopupBeta {
   text-align: center;
   margin-top: 8px;
   margin-bottom: 30px;
   color: #cc0000;
 }
+
 #timeSigPopupTitle {
   text-align: center;
   margin-top: 8px;
   margin-bottom: 30px;
 }
+
 #timeSigPopupOptions {
   text-align: center;
 }
+
 #timeSigPopupTimeSigTop,
 #timeSigPopupTimeSigBottom {
   font-size: 24px;
@@ -1049,10 +1197,12 @@ hr {
   padding-left: 20px;
   width: 80px;
 }
+
 #timeSigPopupSlash {
   font-size: 24px;
   margin: 0px 10px;
 }
+
 #timeSigPopupCancel {
   font-size: 16px;
   font-weight: 500;
@@ -1062,6 +1212,7 @@ hr {
   border-radius: 5px;
   padding: 5px 10px;
 }
+
 #timeSigPopupOK {
   font-size: 16px;
   font-weight: 500;
@@ -1071,33 +1222,40 @@ hr {
   border-radius: 5px;
   padding: 5px 10px;
 }
+
 #timeSigPopupButtons {
   margin-top: 30px;
   text-align: center;
 }
+
 #fullURLPopupCloseButton {
   font-size: 100%;
   float: right;
   cursor: pointer;
 }
+
 #fullURLPopupCloseButton:hover {
   color: #444;
 }
+
 #fullURLPopupTitle {
   font-size: 18px;
   font-weight: 700;
   text-align: center;
 }
+
 #fullURLPopupSubTitle {
   color: var(--highlight-color);
   font-size: 14px;
   font-weight: 700;
   text-align: center;
 }
+
 #fullURLPopupSubSubTitle {
   font-size: 12px;
   text-align: center;
 }
+
 #fullURLPopupCheckboxes {
   display: -webkit-flex;
   display: flex;
@@ -1106,16 +1264,20 @@ hr {
   justify-content: space-around;
   -webkit-justify-content: space-around;
 }
+
 .fullURLPopupCheckboxLabel {
   font-size: 12px;
 }
+
 .fullURLPopupCheckboxLabel input[type='checkbox'] {
   vertical-align: middle;
 }
+
 #fullURLPopupTextFieldContainer {
   margin: 0px auto;
   width: 366px;
 }
+
 #fullURLPopupTextField {
   width: 350px;
   padding: 8px;
@@ -1124,6 +1286,7 @@ hr {
   border-radius: 5px;
   text-align: center;
 }
+
 #fullURLPopupCopyButton {
   font-size: 16px;
   font-family: Lato, sans-serif;
@@ -1133,43 +1296,53 @@ hr {
   border-radius: 5px;
   padding: 5px 10px;
 }
+
 #shareButtonContainer {
   text-align: center;
 }
-#shareButton {
-}
+
+#shareButton {}
+
 .sharer-0::before {
   top: 7px;
 }
+
 .sharer-0 label {
   background: var(--highlight-color) !important;
   color: #fff !important;
 }
+
 .metronomeAutoSpeedupInputRow {
   vertical-align: text-bottom;
 }
+
 #metronomeAutoSpeedupConfigurationSliders {
   width: 370px;
   margin: 0px auto;
 }
+
 #metronomeAutoSpeedupTempoIncreaseAmount,
 #metronomeAutoSpeedupTempoIncreaseInterval {
   background: var(--highlight-color);
   width: 365px;
 }
+
 #metronomeAutoSpeedupOutputText {
   font-size: 25px;
   text-align: center;
 }
+
 #metronomeAutoSpeedupTempoIncreaseAmountOutput,
 #metronomeAutoSpeedupTempoIncreaseIntervalOutput {
   color: var(--highlight-color);
   font-weight: 700;
 }
+
 #metronomeAutoSpeedupConfigurationAmountLable,
 #metronomeAutoSpeedupConfigurationIntervalLable {
   font-size: 12px;
 }
+
 #metronomeAutoSpeedupConfigurationKeepIncreasing {
   font-size: 12px;
   color: var(--highlight-color);
@@ -1177,10 +1350,12 @@ hr {
   vertical-align: middle;
   margin-bottom: 10px;
 }
+
 #metronomeAutoSpeedupCloseButtonDiv {
   text-align: center;
   margin-top: 15px;
 }
+
 #metronomeAutoSpeedupConfigurationCloseButton {
   font-size: 16px;
   font-weight: 500;
@@ -1190,10 +1365,11 @@ hr {
   border-radius: 5px;
   padding: 5px 10px;
 }
-#showHideSecondMeasureButton {
-}
-#stickingsButton {
-}
+
+#showHideSecondMeasureButton {}
+
+#stickingsButton {}
+
 #stickingsButton:before {
   font-family: FontAwesome;
   font-size: 2em;
@@ -1201,6 +1377,7 @@ hr {
   content: '\f065';
   line-height: 32px;
 }
+
 #stickingsButton.ClickToHide:before {
   font-family: FontAwesome;
   font-size: 2em;
@@ -1208,28 +1385,32 @@ hr {
   content: '\f066';
   line-height: 32px;
 }
-#printButton {
-}
-#downloadButton {
-}
-#shareSaveButton {
-}
+
+#printButton {}
+
+#downloadButton {}
+
+#shareSaveButton {}
+
 .centeringSpace {
   /margin-right: 5%;
   /margin-left: 5%;
 }
+
 button {
   cursor: pointer;
 }
 
-input[type='checkbox']:checked + label {
+input[type='checkbox']:checked+label {
   color: #000;
   cursor: pointer;
 }
-input[type='checkbox']:not(:checked) + label {
+
+input[type='checkbox']:not(:checked)+label {
   color: #888;
   cursor: pointer;
 }
+
 #totalPlayTime {
   z-index: 999;
   position: fixed;
@@ -1238,27 +1419,37 @@ input[type='checkbox']:not(:checked) + label {
   margin-right: 20px;
   color: var(--highlight-color);
 }
+
 .totalTimeNum {
   color: #eee;
 }
+
 .myCheckbox {
   display: none;
-} /* to hide the checkbox itself */
-.myCheckbox + label:before {
+}
+
+/* to hide the checkbox itself */
+.myCheckbox+label:before {
   font-family: FontAwesome;
   display: inline-block;
   /* content: "\f096";  /* uncheck box */
-  content: '\00a0'; /* blank space */
+  content: '\00a0';
+  /* blank space */
   letter-spacing: 17px;
-} /* unchecked icon */
-.myCheckbox:checked + label:before {
+}
+
+/* unchecked icon */
+.myCheckbox:checked+label:before {
   content: '\f00c';
   letter-spacing: 5px;
-} /* checked icon */
+}
+
+/* checked icon */
 .hiddenCheckbox {
   /* checkbox for the key (legend) */
   visibility: hidden;
 }
+
 #LegendLabel {
   border: 1px solid #ccc;
   padding: 3px 7px 5px 7px;
@@ -1266,10 +1457,12 @@ input[type='checkbox']:not(:checked) + label {
   background: #ccc;
   margin-right: 8px;
 }
+
 #GrooveDB_source {
   width: calc(100% - 6px);
   height: 280px;
 }
+
 #bottomButtonRow {
   padding: 20px 0px;
   background: #393939;
@@ -1280,39 +1473,49 @@ input[type='checkbox']:not(:checked) + label {
   justify-content: space-around;
   -webkit-justify-content: space-around;
 }
+
 .pageBottomButton {
   display: inline-block;
   margin: 0px 20px;
 }
+
 .pageBottomButton:hover {
   cursor: pointer;
   color: #fff;
 }
+
 .bottomButtonIcon {
   display: block;
 }
+
 .bottomButtonLabel {
   margin-top: 2px;
   display: block;
 }
+
 .edit-block {
   display: none;
 }
+
 /*  3 circles make up the tom icon.  Position them */
 #icon-tom1 {
   font-size: 16px;
   margin-top: 16px;
 }
+
 #icon-tom2 {
   font-size: 14px;
   margin-left: -5px;
   vertical-align: top;
 }
+
 #icon-tom3 {
   font-size: 20px;
   margin-top: 11px;
 }
+
 @media print {
+
   /* keep at bottom so it overrides the styles above */
   /* there is another definition in groove_display.css that adds more rules */
   #GrooveWriter {
