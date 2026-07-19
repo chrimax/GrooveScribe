@@ -95,6 +95,9 @@ for (let cur_measure = 1; cur_measure <= myGrooveWriter.numberOfMeasures(); cur_
   }
 
   gridHTML += myGrooveWriter.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * myGrooveWriter.notesPerMeasure());
+
+  gridHTML += '<span id="addMeasureButton" title="Add measure" onClick="myGrooveWriter.addMeasureButtonClick(event)"><i class="fa fa-plus"></i></span>';
+  gridHTML += '<span id="addIndependentBlockButton" title="Add independent rhythm block" onClick="myGrooveWriter.addIndependentBlockButtonClick(event)"><i class="fa fa-plus-square"></i></span>';
 }
 fillContainer('measureContainer', gridHTML);
 

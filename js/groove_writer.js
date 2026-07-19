@@ -3819,6 +3819,9 @@ function GrooveWriter() {
       newHTML += root.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * class_notes_per_measure);
     }
 
+    newHTML += '<span id="addMeasureButton" title="Add measure" onClick="myGrooveWriter.addMeasureButtonClick(event)"><i class="fa fa-plus"></i></span>';
+    newHTML += '<span id="addIndependentBlockButton" title="Add independent rhythm block" onClick="myGrooveWriter.addIndependentBlockButtonClick(event)"><i class="fa fa-plus-square"></i></span>';
+
     // rewrite the HTML for the HTML note grid
     document.getElementById('measureContainer').innerHTML = newHTML;
 

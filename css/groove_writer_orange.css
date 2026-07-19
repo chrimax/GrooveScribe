@@ -1561,3 +1561,16 @@ input[type='checkbox']:not(:checked)+label {
 .section-description-input:focus {
   outline: none;
 }
+
+#addIndependentBlockButton {
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0px;
+  cursor: pointer;
+  color: var(--highlight-color-on-white);
+  font-size: 25px;
+}
+
+#addIndependentBlockButton:hover {
+  color: #000;
+}
