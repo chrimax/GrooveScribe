@@ -111,6 +111,8 @@ function GrooveWriter() {
   var class_metronome_auto_speed_up_active = false;
   var class_metronome_count_in_active = false;
   var class_metronome_count_in_is_playing = false;
+  var class_section_breaks = [{ afterMeasure: 4, description: "Intro" }]; // ex: [{ afterMeasure: 4, description: "Intro" }]
+
 
   // set debugMode immediately so we can use it in index.html
   root.myGrooveUtils.debugMode = parseInt(
@@ -148,6 +150,10 @@ function GrooveWriter() {
 
   root.notesPerMeasure = function () {
     return class_notes_per_measure;
+  };
+
+  root.sectionBreaks = function () {
+    return class_section_breaks;
   };
 
   // is the division a triplet groove?   12, 24, or 48 notes
@@ -598,12 +604,12 @@ function GrooveWriter() {
 
     var note_id_in_32 = Math.floor(
       percent_complete *
-        root.myGrooveUtils.calc_notes_per_measure(
-          usingTriplets() ? 48 : 32,
-          class_num_beats_per_measure,
-          class_note_value_per_measure
-        ) *
-        class_number_of_measures
+      root.myGrooveUtils.calc_notes_per_measure(
+        usingTriplets() ? 48 : 32,
+        class_num_beats_per_measure,
+        class_note_value_per_measure
+      ) *
+      class_number_of_measures
     );
     var real_note_id =
       note_id_in_32 /
@@ -2589,11 +2595,11 @@ function GrooveWriter() {
 
     updateSheetMusic();
 
-    if (class_number_of_measures === 5)
+    if (class_number_of_measures === 30)
       window.alert(
         'Please be aware that the Groove Scribe is not designed to write an entire musical score.\n' +
-          'You can create as many measures as you want, but your browser may slow down as more measures are added.\n' +
-          'There are also many notation features that would be useful for score writing that are not part of Groove Scribe'
+        'You can create as many measures as you want, but your browser may slow down as more measures are added.\n' +
+        'There are also many notation features that would be useful for score writing that are not part of Groove Scribe'
       );
   };
 
@@ -2772,10 +2778,10 @@ function GrooveWriter() {
 
           default:
             /* DEBUG
-					else if(e.ctrlKey && e.which !=17 && e.target.type != "text") {
-					alert("Key is: " + e.which);
-					}
-					 */
+          else if(e.ctrlKey && e.which !=17 && e.target.type != "text") {
+          alert("Key is: " + e.which);
+          }
+           */
             break;
         }
       }
@@ -2873,11 +2879,11 @@ function GrooveWriter() {
     if (root.browserInfo.browser == 'MSIE' && root.browserInfo.version < 10) {
       window.alert(
         'This browser has been detected as: ' +
-          root.browserInfo.browser +
-          ' ver: ' +
-          root.browserInfo.version +
-          '.\n' +
-          'This version of IE is unsupported.   Please use Chrome or Firefox instead'
+        root.browserInfo.browser +
+        ' ver: ' +
+        root.browserInfo.version +
+        '.\n' +
+        'This version of IE is unsupported.   Please use Chrome or Firefox instead'
       );
     } else if (
       root.browserInfo.browser == 'Safari' &&
@@ -2886,11 +2892,11 @@ function GrooveWriter() {
     ) {
       window.alert(
         'This browser has been detected as: ' +
-          root.browserInfo.browser +
-          ' ver: ' +
-          root.browserInfo.version +
-          '.\n' +
-          'This version of Safari is unsupported.   Please use Chrome instead'
+        root.browserInfo.browser +
+        ' ver: ' +
+        root.browserInfo.version +
+        '.\n' +
+        'This version of Safari is unsupported.   Please use Chrome instead'
       );
     }
     if (root.myGrooveUtils.debugMode) {
@@ -3640,10 +3646,12 @@ function GrooveWriter() {
 
     var newHTML = '';
     for (var cur_measure = 1; cur_measure <= class_number_of_measures; cur_measure++) {
-      newHTML += root.HTMLforStaffContainer(
-        cur_measure,
-        (cur_measure - 1) * class_notes_per_measure
-      );
+      var section = class_section_breaks.find(s => s.afterMeasure === cur_measure - 1);
+      if (section) {
+        newHTML += '<div class="section-break"></div>';
+        newHTML += '<input type="text" class="section-description-input" value="' + section.description + '">';
+      }
+      newHTML += root.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * class_notes_per_measure);
     }
 
     // rewrite the HTML for the HTML note grid
@@ -3729,22 +3737,22 @@ function GrooveWriter() {
     if (((newDivision * class_num_beats_per_measure) / class_note_value_per_measure) % 1 != 0) {
       alert(
         '1/' +
-          newDivision +
-          ' notes are disabled in ' +
-          class_num_beats_per_measure +
-          '/' +
-          class_note_value_per_measure +
-          ' time.  This combination would result in a half note.'
+        newDivision +
+        ' notes are disabled in ' +
+        class_num_beats_per_measure +
+        '/' +
+        class_note_value_per_measure +
+        ' time.  This combination would result in a half note.'
       );
       return;
     }
     if (isNewDivisionTriplets && class_note_value_per_measure != 4) {
       alert(
         'Triplets are disabled in ' +
-          class_num_beats_per_measure +
-          '/' +
-          class_note_value_per_measure +
-          ' time.  Use x/4 time for triplets.'
+        class_num_beats_per_measure +
+        '/' +
+        class_note_value_per_measure +
+        ' time.  Use x/4 time for triplets.'
       );
       return;
     }

@@ -52,15 +52,15 @@ if (!utils.grooveDBAuthoring) {
   replaceSlot(
     'viewEditSwitchSlot',
     '<span class="left-button" onclick="myGrooveWriter.swapViewEditMode();">' +
-      '<span class="left-button-content"><span id="view-edit-switch">Switch to EDIT mode</span></span></span>'
+    '<span class="left-button-content"><span id="view-edit-switch">Switch to EDIT mode</span></span></span>'
   );
 }
 if (utils.is_touch_device()) {
   replaceSlot(
     'advancedEditSlot',
     '<span class="left-button edit-block" id="advancedEditAnchor" ' +
-      'onclick="event.preventDefault(); myGrooveWriter.toggleAdvancedEdit()">' +
-      '<span class="left-button-content">Advanced Edit</span></span>'
+    'onclick="event.preventDefault(); myGrooveWriter.toggleAdvancedEdit()">' +
+    '<span class="left-button-content">Advanced Edit</span></span>'
   );
 }
 
@@ -68,8 +68,15 @@ if (utils.is_touch_device()) {
 fillContainer('PermutationOptions', myGrooveWriter.HTMLforPermutationOptions());
 
 let gridHTML = '';
-for (let m = 1; m <= myGrooveWriter.numberOfMeasures(); m++) {
-  gridHTML += myGrooveWriter.HTMLforStaffContainer(m, (m - 1) * myGrooveWriter.notesPerMeasure());
+for (let cur_measure = 1; cur_measure <= myGrooveWriter.numberOfMeasures(); cur_measure++) {
+
+  var section = myGrooveWriter.sectionBreaks().find(s => s.afterMeasure === cur_measure - 1);
+  if (section) {
+    gridHTML += '<div class="section-break"></div>';
+    gridHTML += '<input type="text" class="section-description-input" value="' + section.description + '">';
+  }
+
+  gridHTML += myGrooveWriter.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * myGrooveWriter.notesPerMeasure());
 }
 fillContainer('measureContainer', gridHTML);
 
