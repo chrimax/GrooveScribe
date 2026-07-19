@@ -1542,7 +1542,7 @@ input[type='checkbox']:not(:checked)+label {
 .section-break {
   display: block;
   width: 100%;
-  border: #000 1px solid;
+  border-top: #000 1px solid;
   margin-bottom: 5px;
 }
 

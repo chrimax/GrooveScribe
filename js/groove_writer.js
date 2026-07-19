@@ -2371,7 +2371,8 @@ function GrooveWriter() {
             // this measure ends an independent section -- force a line break and
             // redraw the time signature so the next section reads as a fresh,
             // unrelated start, even though it stays on the same printed sheet music
-            addon_abc = '|\n[M:' + class_num_beats_per_measure + '/' + class_note_value_per_measure + ']\n';
+            // %%skip 60 : vertical space between lines
+            addon_abc = '|\n%%vskip 60\n[M:' + class_num_beats_per_measure + '/' + class_note_value_per_measure + ']\n';
           } else if (currentMeasure % numberOfMeasuresPerLine === 0) {
             // new line measure
             addon_abc = '\n';
