@@ -1536,3 +1536,10 @@ input[type='checkbox']:not(:checked)+label {
     width: 100% !important;
   }
 }
+
+.section-break {
+  display: block;
+  width: 100%;
+  border: #000 1px solid;
+  margin-bottom: 5px;
+}
