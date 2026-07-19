@@ -917,7 +917,8 @@ body {
   background: transparent;
 }
 
-#addMeasureButton {
+#addMeasureButton,
+.add-measure-to-section-button {
   vertical-align: top;
   display: inline-block;
   color: var(--highlight-color-on-white);
@@ -936,7 +937,8 @@ body {
 }
 
 .closeMeasureButton:hover,
-#addMeasureButton:hover {
+#addMeasureButton:hover,
+.add-measure-to-section-button:hover {
   color: #000;
 }
 
@@ -1542,4 +1544,20 @@ input[type='checkbox']:not(:checked)+label {
   width: 100%;
   border: #000 1px solid;
   margin-bottom: 5px;
+}
+
+.section-description-input {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px dashed #999;
+  font-style: italic;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+.section-description-input:focus {
+  outline: none;
 }

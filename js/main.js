@@ -68,12 +68,30 @@ if (utils.is_touch_device()) {
 fillContainer('PermutationOptions', myGrooveWriter.HTMLforPermutationOptions());
 
 let gridHTML = '';
+var sectionStarts = myGrooveWriter.getSectionStartMeasures();
 for (let cur_measure = 1; cur_measure <= myGrooveWriter.numberOfMeasures(); cur_measure++) {
+  var sectionIndexStartingHere = sectionStarts.indexOf(cur_measure);
+  if (sectionIndexStartingHere !== -1) {
+    if (sectionIndexStartingHere !== 0) {
+      // close out the previous section with its own "add measure" button,
+      // and start a visual break -- skipped for the very first section,
+      // which has nothing above it to break away from
+      gridHTML +=
+        '<span class="add-measure-to-section-button" title="Add measure" onClick="myGrooveWriter.addMeasureToSectionButtonClick(event, ' +
+        (sectionIndexStartingHere - 1) +
+        ')"><i class="fa fa-plus"></i></span>';
+      gridHTML += '<div class="section-break"></div>';
+    }
 
-  var section = myGrooveWriter.sectionBreaks().find(s => s.afterMeasure === cur_measure - 1);
-  if (section) {
-    gridHTML += '<div class="section-break"></div>';
-    gridHTML += '<input type="text" class="section-description-input" value="' + section.description + '">';
+    var section = myGrooveWriter.sectionBreaks()[sectionIndexStartingHere];
+    console.log("section", section);
+    gridHTML +=
+      '<input type="text" class="section-description-input" value="' +
+      section.description.replace(/"/g, '&quot;') +
+      '" onChange="myGrooveWriter.sectionDescriptionChanged(event, ' +
+      sectionIndexStartingHere +
+      ')">';
+
   }
 
   gridHTML += myGrooveWriter.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * myGrooveWriter.notesPerMeasure());

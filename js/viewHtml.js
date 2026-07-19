@@ -438,10 +438,13 @@ export function buildStaffContainerHTML(baseindex, indexStartForNotes, ctx) {
       ')" class="closeMeasureButton"><i class="fa fa-times-circle"></i></span>';
   else newHTML += '<span class="closeMeasureButton"><i class="fa">&nbsp;&nbsp;&nbsp;</i></span>';
 
-  if (baseindex == ctx.numberOfMeasures)
+  if (baseindex == ctx.numberOfMeasures) {
     // add new measure button
     newHTML +=
       '<span id="addMeasureButton" title="Add measure" onClick="myGrooveWriter.addMeasureButtonClick(event)"><i class="fa fa-plus"></i></span>';
+    newHTML +=
+      '<span id="addIndependentBlockButton" title="Add independent rhythm block" onClick="myGrooveWriter.addIndependentBlockButtonClick(event)"><i class="fa fa-plus-square"></i></span>';
+  }
 
   newHTML += '</div>';
 

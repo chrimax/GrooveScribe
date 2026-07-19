@@ -111,7 +111,7 @@ function GrooveWriter() {
   var class_metronome_auto_speed_up_active = false;
   var class_metronome_count_in_active = false;
   var class_metronome_count_in_is_playing = false;
-  var class_section_breaks = [{ afterMeasure: 4, description: "Intro" }]; // ex: [{ afterMeasure: 4, description: "Intro" }]
+  var class_section_breaks = [{ measures: 1, description: 'Intro' }];
 
 
   // set debugMode immediately so we can use it in index.html
@@ -2337,7 +2337,10 @@ function GrooveWriter() {
           numberOfMeasuresPerLine = 1;
         }
 
+        var sectionStarts = root.getSectionStartMeasures();
+
         for (i = 0; i < class_number_of_measures; i++) {
+
           // we already go the array states above, don't get it again.
           if (i > 0) {
             // reset arrays
@@ -2356,16 +2359,37 @@ function GrooveWriter() {
             );
           }
 
-          if (i + 1 == class_number_of_measures) {
+          var currentMeasure = i + 1;
+          var nextMeasure = i + 2;
+          var isLastMeasureOfPiece = currentMeasure === class_number_of_measures;
+          var nextMeasureStartsNewSection = !isLastMeasureOfPiece && sectionStarts.indexOf(nextMeasure) > 0;
+
+          if (isLastMeasureOfPiece) {
             // last measure
             addon_abc = '|\n';
-          } else if ((i + 1) % numberOfMeasuresPerLine === 0) {
+          } else if (nextMeasureStartsNewSection) {
+            // this measure ends an independent section -- force a line break and
+            // redraw the time signature so the next section reads as a fresh,
+            // unrelated start, even though it stays on the same printed sheet music
+            addon_abc = '|\n[M:' + class_num_beats_per_measure + '/' + class_note_value_per_measure + ']\n';
+          } else if (currentMeasure % numberOfMeasuresPerLine === 0) {
             // new line measure
             addon_abc = '\n';
           } else {
             // continuation measure
             addon_abc = '\\\n';
           }
+
+          // if this measure is the very first measure of a section (this also
+          // naturally covers the first section, at measure 1 -- no special case needed)
+          var sectionIndexStartingHere = sectionStarts.indexOf(currentMeasure);
+          if (sectionIndexStartingHere !== -1) {
+            var thisSection = class_section_breaks[sectionIndexStartingHere];
+            if (thisSection.description) {
+              fullABC += '"^' + thisSection.description.replace(/"/g, "'") + '"\n';
+            }
+          }
+
           fullABC += root.myGrooveUtils.create_ABC_from_snare_HH_kick_arrays(
             Sticking_Array,
             HH_Array,
@@ -2380,6 +2404,7 @@ function GrooveWriter() {
             class_num_beats_per_measure,
             class_note_value_per_measure
           );
+
           root.myGrooveUtils.note_mapping_array = root.myGrooveUtils.note_mapping_array.concat(
             root.myGrooveUtils.create_note_mapping_array_for_highlighting(
               HH_Array,
@@ -2524,6 +2549,7 @@ function GrooveWriter() {
       }
     }
 
+    removeMeasureFromSectionBreaks(measureNum);
     class_number_of_measures--;
 
     root.expandAuthoringViewWhenNecessary(class_notes_per_measure, class_number_of_measures);
@@ -2574,6 +2600,8 @@ function GrooveWriter() {
       uiKick += get_kick_state(i, 'URL');
     }
 
+    // extend the last section by one measure
+    class_section_breaks[class_section_breaks.length - 1].measures++;
     class_number_of_measures++;
 
     root.expandAuthoringViewWhenNecessary(class_notes_per_measure, class_number_of_measures);
@@ -2601,6 +2629,123 @@ function GrooveWriter() {
         'You can create as many measures as you want, but your browser may slow down as more measures are added.\n' +
         'There are also many notation features that would be useful for score writing that are not part of Groove Scribe'
       );
+  };
+
+  // add a new independent rhythm block after the current last measure
+  // unlike addMeasureButtonClick, this new measure is NOT meant to be played
+  // as a continuation of the previous one -- it starts a fresh visual section
+  // with its own line break and description
+  // copy the notes from the last measure to the new measure, same as addMeasureButtonClick
+  root.addIndependentBlockButtonClick = function (event) {
+    var uiStickings = '';
+    var uiHH = '';
+    var uiTom1 = '';
+    var uiTom4 = '';
+    var uiSnare = '';
+    var uiKick = '';
+    var i;
+
+    // get the encoded notes out of the UI.
+    var topIndex = class_notes_per_measure * class_number_of_measures;
+    for (i = 0; i < topIndex; i++) {
+      uiStickings += get_sticking_state(i, 'URL');
+      uiHH += get_hh_state(i, 'URL');
+      uiTom1 += get_tom_state(i, 1, 'URL');
+      uiTom4 += get_tom_state(i, 4, 'URL');
+      uiSnare += get_snare_state(i, 'URL');
+      uiKick += get_kick_state(i, 'URL');
+    }
+
+    // register a section break before the new measure, so the rendering
+    // loop knows to insert a line break + description field here
+    class_section_breaks.push({ measures: 1, description: '' });
+
+    class_number_of_measures++;
+
+    root.expandAuthoringViewWhenNecessary(class_notes_per_measure, class_number_of_measures);
+
+    changeDivisionWithNotes(
+      class_time_division,
+      uiStickings,
+      uiHH,
+      uiTom1,
+      uiTom4,
+      uiSnare,
+      uiKick
+    );
+
+    // reference the button and scroll it into view
+    var add_block_button = document.getElementById('addIndependentBlockButton');
+    if (add_block_button)
+      add_block_button.scrollIntoView({ block: 'start', behavior: 'smooth' });
+
+    updateSheetMusic();
+  };
+
+  // returns the 1-indexed measure number that ends the given section
+  // (sectionIndex 0 = the first section, before any break)
+  function getLastMeasureOfSection(sectionIndex) {
+    var cumulative = 0;
+    for (var s = 0; s <= sectionIndex; s++) cumulative += class_section_breaks[s].measures;
+    return cumulative;
+  }
+
+  // add a measure to a specific section, not necessarily the last one --
+  // duplicates that section's last measure and splices it in right after,
+  // shifting every later section's break point by one measure
+  root.addMeasureToSectionButtonClick = function (event, sectionIndex) {
+    var insertAfterMeasure = getLastMeasureOfSection(sectionIndex);
+    var uiStickings = '',
+      uiHH = '',
+      uiTom1 = '',
+      uiTom4 = '',
+      uiSnare = '',
+      uiKick = '';
+    var i;
+    var topIndex = class_notes_per_measure * class_number_of_measures;
+
+    for (i = 0; i < topIndex; i++) {
+      uiStickings += get_sticking_state(i, 'URL');
+      uiHH += get_hh_state(i, 'URL');
+      uiTom1 += get_tom_state(i, 1, 'URL');
+      uiTom4 += get_tom_state(i, 4, 'URL');
+      uiSnare += get_snare_state(i, 'URL');
+      uiKick += get_kick_state(i, 'URL');
+    }
+
+    var insertPos = insertAfterMeasure * class_notes_per_measure;
+    var lastMeasureStart = insertPos - class_notes_per_measure;
+
+    function insertDuplicateMeasure(fullString) {
+      var duplicated = fullString.substring(lastMeasureStart, insertPos);
+      return fullString.substring(0, insertPos) + duplicated + fullString.substring(insertPos);
+    }
+
+    uiStickings = insertDuplicateMeasure(uiStickings);
+    uiHH = insertDuplicateMeasure(uiHH);
+    uiTom1 = insertDuplicateMeasure(uiTom1);
+    uiTom4 = insertDuplicateMeasure(uiTom4);
+    uiSnare = insertDuplicateMeasure(uiSnare);
+    uiKick = insertDuplicateMeasure(uiKick);
+
+    // no shifting needed -- every other section's boundaries are derived
+    // automatically from the lengths in class_section_breaks
+    class_section_breaks[sectionIndex].measures++;
+    class_number_of_measures++;
+
+    root.expandAuthoringViewWhenNecessary(class_notes_per_measure, class_number_of_measures);
+
+    changeDivisionWithNotes(class_time_division, uiStickings, uiHH, uiTom1, uiTom4, uiSnare, uiKick);
+
+    updateSheetMusic();
+  };
+
+  // called when the user finishes typing in a section's description field
+  // (onChange, not onInput, so we don't rebuild the grid on every keystroke
+  // and lose focus/cursor position)
+  root.sectionDescriptionChanged = function (event, sectionIndex) {
+    class_section_breaks[sectionIndex].description = event.target.value;
+    updateSheetMusic(); // only re-render the sheet music, not the grid
   };
 
   function showHideCSS_ClassDisplay(className, force, showElseHide, showState) {
@@ -3568,6 +3713,8 @@ function GrooveWriter() {
     class_num_beats_per_measure = myGrooveData.numBeats; // TimeSigTop
     class_note_value_per_measure = myGrooveData.noteValue; // TimeSigBottom
 
+    class_section_breaks = [{ measures: myGrooveData.numberOfMeasures, description: 'Intro' }];
+
     if (
       myGrooveData.notesPerMeasure != class_notes_per_measure ||
       class_number_of_measures != myGrooveData.numberOfMeasures
@@ -3645,11 +3792,29 @@ function GrooveWriter() {
     );
 
     var newHTML = '';
+    var sectionStarts = root.getSectionStartMeasures();
     for (var cur_measure = 1; cur_measure <= class_number_of_measures; cur_measure++) {
-      var section = class_section_breaks.find(s => s.afterMeasure === cur_measure - 1);
-      if (section) {
-        newHTML += '<div class="section-break"></div>';
-        newHTML += '<input type="text" class="section-description-input" value="' + section.description + '">';
+      var sectionIndexStartingHere = sectionStarts.indexOf(cur_measure);
+      if (sectionIndexStartingHere !== -1) {
+        if (sectionIndexStartingHere !== 0) {
+          // close out the previous section with its own "add measure" button,
+          // and start a visual break -- skipped for the very first section,
+          // which has nothing above it to break away from
+          newHTML +=
+            '<span class="add-measure-to-section-button" title="Add measure" onClick="myGrooveWriter.addMeasureToSectionButtonClick(event, ' +
+            (sectionIndexStartingHere - 1) +
+            ')"><i class="fa fa-plus"></i></span>';
+          newHTML += '<div class="section-break"></div>';
+        }
+
+        var section = class_section_breaks[sectionIndexStartingHere];
+        newHTML +=
+          '<input type="text" class="section-description-input" value="' +
+          section.description.replace(/"/g, '&quot;') +
+          '" onChange="myGrooveWriter.sectionDescriptionChanged(event, ' +
+          sectionIndexStartingHere +
+          ')">';
+
       }
       newHTML += root.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * class_notes_per_measure);
     }
@@ -3884,6 +4049,35 @@ function GrooveWriter() {
   root.HTMLforPermutationOptions = function () {
     return _view.buildPermutationOptionsHTML(class_permutation_type, usingTriplets());
   };
+
+  // returns, for each section in order, the 1-indexed measure number of its FIRST measure
+  root.getSectionStartMeasures = function () {
+    var starts = [];
+    var cumulative = 0;
+    for (var s = 0; s < class_section_breaks.length; s++) {
+      starts.push(cumulative + 1);
+      cumulative += class_section_breaks[s].measures;
+    }
+    return starts;
+  }
+
+  // finds which section contains the given 1-indexed absolute measure number,
+  // and shrinks that section by one measure; if the section becomes empty
+  // (0 measures left), it's removed entirely from class_section_breaks
+  function removeMeasureFromSectionBreaks(measureNum) {
+    var cumulative = 0;
+    for (var index = 0; index < class_section_breaks.length; index++) {
+      cumulative += class_section_breaks[index].measures;
+      if (measureNum <= cumulative) {
+        class_section_breaks[index].measures--;
+        if (class_section_breaks[index].measures === 0) {
+          class_section_breaks.splice(index, 1);
+        }
+        return;
+      }
+    }
+  }
+
 } // end of class
 
 export { GrooveWriter };
