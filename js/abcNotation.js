@@ -14,6 +14,25 @@ import {
   convert_sticking_counts_to_actual_counts,
 } from './noteArrays.js';
 
+function getSectionStartMeasures(sectionBreaks) {
+  var sectionStarts = [];
+  var cumulativeMeasure = 1;
+
+  if (!Array.isArray(sectionBreaks) || sectionBreaks.length === 0) {
+    return [1];
+  }
+
+  for (var i = 0; i < sectionBreaks.length; i++) {
+    var section = sectionBreaks[i];
+    if (!section || typeof section !== 'object') continue;
+
+    sectionStarts.push(cumulativeMeasure);
+    cumulativeMeasure += parseInt(section.measures, 10) || 0;
+  }
+
+  return sectionStarts;
+}
+
 function moveAccentsOrOtherModifiersOutsideOfGroup(abcNoteStrings, modifier_to_look_for) {
   var found_modifier = false;
   var rindex = abcNoteStrings.notes1.lastIndexOf(modifier_to_look_for);
@@ -860,24 +879,48 @@ export function createABCFromGrooveData(gu, myGrooveData, renderWidth) {
     renderWidth
   );
 
-  fullABC += gu.create_ABC_from_snare_HH_kick_arrays(
-    FullNoteStickingArray,
-    FullNoteHHArray,
-    FullNoteSnareArray,
-    FullNoteKickArray,
-    FullNoteTomsArray,
-    '|\n',
-    FullNoteHHArray.length,
-    myGrooveData.timeDivision,
-    notesPerMeasureInFullSizeArray(
-      is_triplet_division,
-      myGrooveData.numBeats,
-      myGrooveData.noteValue
-    ), // notes_per_measure, We scaled up to 48/32 above
-    myGrooveData.kickStemsUp,
+  var notesPerMeasure = notesPerMeasureInFullSizeArray(
+    is_triplet_division,
     myGrooveData.numBeats,
     myGrooveData.noteValue
   );
+  var sectionStarts = getSectionStartMeasures(myGrooveData.sectionBreaks);
+
+  for (var measureIndex = 0; measureIndex < myGrooveData.numberOfMeasures; measureIndex++) {
+    var measureStart = measureIndex * notesPerMeasure;
+    var measureEnd = measureStart + notesPerMeasure;
+    var currentMeasure = measureIndex + 1;
+    var nextMeasure = measureIndex + 2;
+    var isLastMeasureOfPiece = currentMeasure === myGrooveData.numberOfMeasures;
+    var nextMeasureStartsNewSection = !isLastMeasureOfPiece && sectionStarts.indexOf(nextMeasure) > 0;
+
+    var addon_abc = isLastMeasureOfPiece ? '|\n' : nextMeasureStartsNewSection ? '|\n%%vskip 40\n' : '\\\n';
+
+    var sectionIndexStartingHere = sectionStarts.indexOf(currentMeasure);
+    if (sectionIndexStartingHere !== -1) {
+      var thisSection = myGrooveData.sectionBreaks[sectionIndexStartingHere];
+      if (thisSection && thisSection.description) {
+        fullABC += '"^' + thisSection.description.replace(/"/g, "'") + '"\n';
+      }
+    }
+
+    fullABC += gu.create_ABC_from_snare_HH_kick_arrays(
+      FullNoteStickingArray.slice(measureStart, measureEnd),
+      FullNoteHHArray.slice(measureStart, measureEnd),
+      FullNoteSnareArray.slice(measureStart, measureEnd),
+      FullNoteKickArray.slice(measureStart, measureEnd),
+      FullNoteTomsArray.map(function (tomArray) {
+        return tomArray.slice(measureStart, measureEnd);
+      }),
+      addon_abc,
+      notesPerMeasure,
+      myGrooveData.timeDivision,
+      notesPerMeasure,
+      myGrooveData.kickStemsUp,
+      myGrooveData.numBeats,
+      myGrooveData.noteValue
+    );
+  }
 
   gu.note_mapping_array = create_note_mapping_array_for_highlighting(
     FullNoteHHArray,

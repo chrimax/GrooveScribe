@@ -41,6 +41,84 @@ export function getQueryVariableFromString(variable, def_value, my_string) {
  *   Instance flags to seed the new GrooveData with (passed by GrooveUtils).
  * @returns {import('./grooveData.js').GrooveData}
  */
+function normalizeSectionBreaks(sectionBreaks, numberOfMeasures) {
+  if (!Array.isArray(sectionBreaks) || sectionBreaks.length === 0) {
+    return [{ measures: numberOfMeasures, description: 'Intro' }];
+  }
+
+  var normalized = [];
+  var remainingMeasures = numberOfMeasures;
+
+  for (var index = 0; index < sectionBreaks.length; index++) {
+    var section = sectionBreaks[index];
+    if (!section || typeof section !== 'object') continue;
+
+    var measures = parseInt(section.measures, 10);
+    if (isNaN(measures) || measures < 1) continue;
+
+    if (remainingMeasures <= 0) break;
+
+    var allowedMeasures = Math.min(measures, remainingMeasures);
+    normalized.push({
+      measures: allowedMeasures,
+      description: typeof section.description === 'string' ? section.description : '',
+    });
+    remainingMeasures -= allowedMeasures;
+  }
+
+  if (normalized.length === 0) {
+    return [{ measures: numberOfMeasures, description: 'Intro' }];
+  }
+
+  if (remainingMeasures > 0 && normalized.length > 0) {
+    normalized[normalized.length - 1].measures += remainingMeasures;
+  }
+
+  return normalized;
+}
+
+function parseSectionBreaksFromUrl(sectionBreaksString, numberOfMeasures) {
+  if (!sectionBreaksString) {
+    return [{ measures: numberOfMeasures, description: 'Intro' }];
+  }
+
+  var parts = sectionBreaksString.split('|');
+  var parsedSections = [];
+
+  for (var i = 0; i < parts.length; i++) {
+    if (!parts[i]) continue;
+
+    var separatorIndex = parts[i].indexOf(':');
+    if (separatorIndex === -1) continue;
+
+    var measures = parseInt(parts[i].slice(0, separatorIndex), 10);
+    var description = decodeURIComponent(parts[i].slice(separatorIndex + 1));
+
+    if (!isNaN(measures) && measures > 0) {
+      parsedSections.push({ measures: measures, description: description.replace(/\+/g, ' ') });
+    }
+  }
+
+  return normalizeSectionBreaks(parsedSections, numberOfMeasures);
+}
+
+function serializeSectionBreaksToUrl(sectionBreaks, numberOfMeasures) {
+  if (!Array.isArray(sectionBreaks) || sectionBreaks.length === 0) {
+    return '';
+  }
+
+  var normalizedBreaks = normalizeSectionBreaks(sectionBreaks, numberOfMeasures);
+  var shouldSerialize = normalizedBreaks.length > 1;
+
+  if (!shouldSerialize) {
+    return '';
+  }
+
+  return '&Sections=' + normalizedBreaks.map(function (section) {
+    return section.measures + ':' + encodeURIComponent(section.description || '');
+  }).join('|');
+}
+
 export function getGrooveDataFromUrlString(encodedURLData, config = {}) {
   var Stickings_string;
   var HH_string;
@@ -80,6 +158,11 @@ export function getGrooveDataFromUrlString(encodedURLData, config = {}) {
     myGrooveData.numberOfMeasures = 1;
   else if (myGrooveData.numberOfMeasures > constant_MAX_MEASURES)
     myGrooveData.numberOfMeasures = constant_MAX_MEASURES;
+
+  myGrooveData.sectionBreaks = parseSectionBreaksFromUrl(
+    getQueryVariableFromString('Sections', false, encodedURLData),
+    myGrooveData.numberOfMeasures
+  );
 
   Stickings_string = getQueryVariableFromString('Stickings', false, encodedURLData);
   if (!Stickings_string) {
@@ -238,6 +321,8 @@ export function getUrlStringFromGrooveData(myGrooveData, url_destination) {
 
   // # of notes
   fullURL += '&Div=' + myGrooveData.timeDivision;
+
+  fullURL += serializeSectionBreaksToUrl(myGrooveData.sectionBreaks, myGrooveData.numberOfMeasures);
 
   if (myGrooveData.title !== '') fullURL += '&Title=' + encodeURIComponent(myGrooveData.title);
 

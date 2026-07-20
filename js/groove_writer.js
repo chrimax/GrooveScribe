@@ -1874,6 +1874,12 @@ function GrooveWriter() {
     myGrooveData.tempo = root.myGrooveUtils.getTempo();
     myGrooveData.metronomeFrequency = root.getMetronomeFrequency();
     myGrooveData.kickStemsUp = true;
+    myGrooveData.sectionBreaks = class_section_breaks.map(function (section) {
+      return {
+        measures: section.measures,
+        description: section.description || '',
+      };
+    });
 
     for (var i = 0; i < class_number_of_measures; i++) {
       var total_notes = class_notes_per_measure * class_number_of_measures;
@@ -3717,7 +3723,9 @@ function GrooveWriter() {
     class_num_beats_per_measure = myGrooveData.numBeats; // TimeSigTop
     class_note_value_per_measure = myGrooveData.noteValue; // TimeSigBottom
 
-    class_section_breaks = [{ measures: myGrooveData.numberOfMeasures, description: 'Intro' }];
+    class_section_breaks = myGrooveData.sectionBreaks || [
+      { measures: myGrooveData.numberOfMeasures, description: 'Intro' },
+    ];
 
     if (
       myGrooveData.notesPerMeasure != class_notes_per_measure ||

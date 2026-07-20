@@ -145,6 +145,25 @@ describe('GrooveUtils URL serialization (extended)', () => {
     });
   });
 
+  describe('Section break parsing and serialization', () => {
+    it('round-trips section breaks through the URL', () => {
+      const gd = gu.getGrooveDataFromUrlString(
+        '?TimeSig=4/4&Div=16&Measures=4&Sections=2:Intro%20A|2:Outro%20B'
+      );
+
+      expect(gd.sectionBreaks).toEqual([
+        { measures: 2, description: 'Intro A' },
+        { measures: 2, description: 'Outro B' },
+      ]);
+
+      const encoded = gu.getUrlStringFromGrooveData(gd);
+      const roundTrip = gu.getGrooveDataFromUrlString(encoded);
+
+      expect(roundTrip.sectionBreaks).toEqual(gd.sectionBreaks);
+      expect(encoded).toContain('Sections=');
+    });
+  });
+
   describe('Swing parsing and clamping', () => {
     it.each([
       [-5, 0], // below 0 -> falls back to default 0

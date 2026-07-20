@@ -73,6 +73,8 @@ const EMPTY_NOTE_ARRAY = [
  * @property {number} tempo            Tempo in BPM.
  * @property {boolean} kickStemsUp     Kick note stem direction.
  * @property {number} metronomeFrequency  Metronome click subdivision (0, 4, 8, 16).
+ * @property {Array<{measures:number, description:string}>} sectionBreaks
+ *   Measure sections for independent blocks / section labels.
  * @property {(boolean|number)} debugMode  Debug flag inherited from the owning GrooveUtils.
  * @property {boolean} grooveDBAuthoring   GrooveDB authoring mode flag.
  * @property {boolean} viewMode        View (vs. edit) mode flag.
@@ -115,6 +117,7 @@ export function createGrooveData(config = {}) {
     tempo: constant_DEFAULT_TEMPO,
     kickStemsUp: true,
     metronomeFrequency: 0, // 0, 4, 8, 16
+    sectionBreaks: [{ measures: 1, description: 'Intro' }],
     debugMode: config.debugMode ?? false,
     grooveDBAuthoring: config.grooveDBAuthoring ?? false,
     viewMode: config.viewMode ?? true,
