@@ -2371,8 +2371,10 @@ function GrooveWriter() {
             // this measure ends an independent section -- force a line break and
             // redraw the time signature so the next section reads as a fresh,
             // unrelated start, even though it stays on the same printed sheet music
-            // %%skip 60 : vertical space between lines
-            addon_abc = '|\n%%vskip 60\n[M:' + class_num_beats_per_measure + '/' + class_note_value_per_measure + ']\n';
+            //addon_abc = '%%skip 60 M:' + class_num_beats_per_measure + '/' + class_note_value_per_measure + '\n';
+            //addon_abc = '|\n%%vskip 60\nM:' + class_num_beats_per_measure + '/' + class_note_value_per_measure + '\n';
+            // extra vertical space before every section except the very first
+            addon_abc = '|\n%%vskip 40\n';
           } else if (currentMeasure % numberOfMeasuresPerLine === 0) {
             // new line measure
             addon_abc = '\n';
@@ -2430,7 +2432,8 @@ function GrooveWriter() {
     var renderWidth = 600;
     var svgTarget = document.getElementById('svgTarget');
     if (svgTarget) {
-      renderWidth = svgTarget.offsetWidth - 100;
+      //renderWidth = svgTarget.offsetWidth - 100;
+      renderWidth = 1920 / 2
       renderWidth = Math.floor(renderWidth * 0.8); // reduce width by 20% (This actually makes the notes bigger, because we scale up everything to max width)
     }
 
