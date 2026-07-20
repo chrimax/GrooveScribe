@@ -2,6 +2,15 @@
 
 Readme for Groove Scribe
 
+### About this fork
+
+- This is a personal fork of the original Groove Scribe, with a few extra features added for my own practice/authoring workflow:
+  - Independent rhythm blocks — multiple unrelated sections on the same printed sheet music, each starting fresh with its own line break
+  - A description/annotation field per section
+  - A 2-measures-per-line limit in the note-authoring grid (matches the printed sheet music layout)
+
+- Original project: https://github.com/montulli/GrooveScribe
+
 ### What is this repository for?
 
 - Groove Scribe is an HTML application for drummers. Groove Scribe is a point and click authoring system to create drum sheet music as well as a practice tool for learning and practicing grooves and exercises.
@@ -11,6 +20,7 @@ Readme for Groove Scribe
 - Hosted here: http://www.mikeslessons.com/gscribe/
 - Also here: http://montulli.github.io/GrooveScribe/
 - Examples and html tests: http://montulli.github.io/GrooveScribe/html_examples_and_tests/index.html
+
 
 ### How do I get set up?
 
